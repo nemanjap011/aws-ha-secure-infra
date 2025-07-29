@@ -28,7 +28,7 @@ This project provisions a **highly available**, **secure**, and **scalable 3-tie
 
 ```bash
 # Clone the repo
-git clone https://github.com/yourusername/aws-ha-secure-infra.git
+git clone https://github.com/nemanjap011/aws-ha-secure-infra.git
 cd aws-ha-secure-infra
 
 # Initialize Terraform
