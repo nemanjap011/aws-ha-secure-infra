@@ -1,31 +1,41 @@
 # 🛠️ AWS Highly Available and Secure 3-Tier Infrastructure (Terraform)
 
-This project builds a **highly available**, **secure**, and **production-grade 3-tier infrastructure** on AWS using Terraform. It follows **modular architecture best practices** and simulates what you’d build in a real-world cloud environment.
+This project provisions a **highly available**, **secure**, and **scalable 3-tier infrastructure** on AWS using Terraform. It follows best practices in modular design, network segmentation, least privilege access, and observability. This setup reflects how production-grade cloud infrastructure is deployed and maintained in real-world environments.
 
 ---
 
 ## 🧱 Architecture Diagram
 
 ![Architecture Diagram](https://raw.githubusercontent.com/yourusername/aws-ha-secure-infra/main/diagram.png)
-
-> *(Replace with your actual image URL after uploading it to your repo)*
+> *(Replace with actual image once uploaded)*
 
 ---
 
-## 🧭 Architecture Overview
+## 🔧 Technologies Used
 
-- **Public Layer**: ALB in 2 public subnets (2 AZs)
-- **Web/App Layer**: EC2 Auto Scaling Group in 2 private subnets (2 AZs)
-- **Database Layer**: RDS (MySQL) in Multi-AZ across private subnets
-- **NAT Gateway**: For private subnet egress
-- **Security**: Proper SGs, IAM, private resources, no hardcoded credentials
-- **Monitoring**: VPC Flow Logs, CloudWatch log group, optional alarm
+- Terraform (IaC)
+- AWS VPC, Subnets, NAT Gateway, Internet Gateway
+- Application Load Balancer (ALB)
+- EC2 (Auto Scaling Group, Launch Template)
+- Amazon RDS (MySQL, Multi-AZ)
+- CloudWatch Logs, VPC Flow Logs
+- IAM Roles and Policies
+- Security Groups and Private Networking
 
 ---
 
 ## 🚀 How to Deploy
 
-1. **Clone this repo**
-   ```bash
-   git clone https://github.com/yourusername/aws-ha-secure-infra.git
-   cd aws-ha-secure-infra
+```bash
+# Clone the repo
+git clone https://github.com/yourusername/aws-ha-secure-infra.git
+cd aws-ha-secure-infra
+
+# Initialize Terraform
+terraform init
+
+# Review the execution plan
+terraform plan
+
+# Apply the infrastructure
+terraform apply
