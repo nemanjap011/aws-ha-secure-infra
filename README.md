@@ -1,20 +1,22 @@
 # 🛠️ AWS Highly Available and Secure 3-Tier Infrastructure (Terraform)
 
-This project provisions a **highly available**, **secure**, and **scalable 3-tier infrastructure** on AWS using Terraform. It follows best practices in modular design, network segmentation, least privilege access, and observability. This setup reflects how production-grade cloud infrastructure is deployed and maintained in real-world environments.
+This project provisions a **highly available**, **secure**, and **scalable 3-tier infrastructure** on AWS using Terraform. It follows best practices in modular design, network segmentation, least privilege access, and observability. This setup reflects how production-grade cloud infrastructure is deployed and maintained in real-world environments, including:
+- Dual NAT Gateway setup for zone-level fault isolation
+- Private subnets routed via independent NAT Gateways in separate AZs
 
 ---
 
 ## 🧱 Architecture Diagram
 
 ![Architecture Diagram](https://raw.githubusercontent.com/yourusername/aws-ha-secure-infra/main/diagram.png)
-> *(Replace with actual image once uploaded)*
+> *(Now includes dual NAT Gateways and route table per private subnet for HA)*
 
 ---
 
 ## 🔧 Technologies Used
 
 - Terraform (IaC)
-- AWS VPC, Subnets, NAT Gateway, Internet Gateway
+- AWS VPC, Subnets, Internet Gateway, Dual NAT Gateways (for HA)
 - Application Load Balancer (ALB)
 - EC2 (Auto Scaling Group, Launch Template)
 - Amazon RDS (MySQL, Multi-AZ)
