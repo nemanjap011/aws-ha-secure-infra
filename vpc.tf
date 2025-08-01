@@ -23,7 +23,7 @@ resource "aws_internet_gateway" "igw" {
 }
 
 #######################################
-# Public Subnets
+# Public Subnets (A & B)
 #######################################
 resource "aws_subnet" "public" {
   count                   = length(var.public_subnet_cidrs)
@@ -38,7 +38,7 @@ resource "aws_subnet" "public" {
 }
 
 #######################################
-# Private Subnets
+# Private Subnets (A & B)
 #######################################
 resource "aws_subnet" "private" {
   count             = length(var.private_subnet_cidrs)
@@ -52,21 +52,36 @@ resource "aws_subnet" "private" {
 }
 
 #######################################
-# Elastic IP for NAT Gateway
+# Elastic IPs for NAT Gateways
 #######################################
 resource "aws_eip" "nat_eip" {
   domain = "vpc"
 }
 
+resource "aws_eip" "nat_eip_b" {
+  domain = "vpc"
+}
+
 #######################################
-# NAT Gateway (1 for both private subnets)
+# NAT Gateways (A & B)
 #######################################
 resource "aws_nat_gateway" "nat" {
   allocation_id = aws_eip.nat_eip.id
   subnet_id     = aws_subnet.public[0].id
 
   tags = {
-    Name = "main-nat-gateway"
+    Name = "main-nat-gateway-a"
+  }
+
+  depends_on = [aws_internet_gateway.igw]
+}
+
+resource "aws_nat_gateway" "nat_b" {
+  allocation_id = aws_eip.nat_eip_b.id
+  subnet_id     = aws_subnet.public[1].id
+
+  tags = {
+    Name = "main-nat-gateway-b"
   }
 
   depends_on = [aws_internet_gateway.igw]
@@ -98,9 +113,9 @@ resource "aws_route_table_association" "public" {
 }
 
 #######################################
-# Private Route Table
+# Private Route Tables (A & B)
 #######################################
-resource "aws_route_table" "private" {
+resource "aws_route_table" "private_a" {
   vpc_id = aws_vpc.main.id
 
   route {
@@ -109,15 +124,32 @@ resource "aws_route_table" "private" {
   }
 
   tags = {
-    Name = "private-rt"
+    Name = "private-rt-a"
+  }
+}
+
+resource "aws_route_table" "private_b" {
+  vpc_id = aws_vpc.main.id
+
+  route {
+    cidr_block     = "0.0.0.0/0"
+    nat_gateway_id = aws_nat_gateway.nat_b.id
+  }
+
+  tags = {
+    Name = "private-rt-b"
   }
 }
 
 #######################################
-# Associate Private Subnets to Private RT
+# Associate Private Subnets to Private RTs
 #######################################
-resource "aws_route_table_association" "private" {
-  count          = length(var.private_subnet_cidrs)
-  subnet_id      = aws_subnet.private[count.index].id
-  route_table_id = aws_route_table.private.id
+resource "aws_route_table_association" "private_a" {
+  subnet_id      = aws_subnet.private[0].id
+  route_table_id = aws_route_table.private_a.id
+}
+
+resource "aws_route_table_association" "private_b" {
+  subnet_id      = aws_subnet.private[1].id
+  route_table_id = aws_route_table.private_b.id
 }
