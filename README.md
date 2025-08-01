@@ -8,7 +8,7 @@ This project provisions a **highly available**, **secure**, and **scalable 3-tie
 
 ## 🧱 Architecture Diagram
 
-![Architecture Diagram](https://raw.githubusercontent.com/yourusername/aws-ha-secure-infra/main/diagram.png)
+![Architecture Diagram](aws-ha-3tier-infra_white_background.png)
 > *(Now includes dual NAT Gateways and route table per private subnet for HA)*
 
 ---
